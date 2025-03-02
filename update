@@ -254,3 +254,78 @@
         ]
     }
 ]
+
+db.employees.updateOne({empId:14},{$set:{salary:30000}}) //updates the salary of employee having empId 14
+
+db.employee.updateMany({depatment:"ETA"},{$set:{salary:40000}}) //updates the salary of employees who belongs to ETA department
+
+db.employees.update({department:"ETA"},{$set:{salary:40000}) //updates the salary of first matching document(works same as updateOne)
+
+db.employees.update({department:"ETA"},{$set:{salary:40000},{multi:true}) //by passing multi:true it will work same as updateMany
+
+Field update operators
+// $inc -- increment
+db.employees.updateMany({department:"ETA"},{$inc:{salary:2000 //increments the salary of all ETA employees by 2000
+
+// decrement (there is no operator for decrement but we can use - symbol)
+db.employees.updateMany({department:"ETA"},{$inc:{salary:-2000}) //decrements the salary of all ETA employees by 2000
+
+// Increment salary by percentages
+db.employees.updateMany({department:"ETA"},{$mul:{salary:1.1}) //mul operator is used to update the values in %
+
+$max and $min
+db.employees.updateMany({},{$max:{salary:30000})  //sets minimum salary of employee to 30000
+
+db.employees.updateMany({},{$min:{salary:50000}) //sets the maximum salary of employees to 50000
+
+$unset - used to remove one or more fields from doc
+db.employees.updateOne({empId:14},{$unset:{department:"",machineId:""}) //by setting department and machineId to "" db automatically removes this field
+
+$upsert --- 
+db.employees.updateOne({department:"A"},{$set:{salary:40000},{upsert:true}) //If there is no matching document found it will create a new document with the given value
+
+$push --- used to add data to the array
+db.employees.updateOne({$empId:14},{$push:{experience:{role:"Senior Systems Engineer",roleExperience:1.0}}})  //it will push the {role:"Senior Systems Engineer",roleExperience:1.0} to experience array
+
+$addToset --- if u use push again to push same data it will add to the array, to avoid duplicates we need to use $addToset method
+db.employees.updateOne({$empId:14},{$addToset:{experience:{role:"Senior Systems Engineer",roleExperience:1.0}}}) //it will wont push because its a duplicate record
+
+$each --- for example by using $push & $addToset if we add array of objects to an array it will create nested array check below example
+db.employees.updateOne({$empId:14},{$addToset:{experience:[{role:"Senior Systems Engineer",roleExperience:1.0},{role:"Senior Systems Engineer",roleExperience:1.0}]}}) 
+output will be 
+  {
+        "empId": 14,
+        "empName": "Chris",
+        "salary": 23000,
+        "department": "ETA",
+        "machineId": 1008,
+        "experience": [
+            {
+                "role": "Systems Engineer",
+                "roleExperience": 0.5
+            },
+           [
+             {role:"Senior Systems Engineer",
+              roleExperience:1.0
+              },
+             {role:"Senior Systems Engineer",
+             roleExperience:1.0
+            }
+           ]
+        ]
+    }
+
+//see in above response array is appending to overcome this we need to use $each
+db.employees.updateOne({$empId:14},{$each:{experience:[{role:"Senior Systems Engineer",roleExperience:1.0},{role:"Senior Systems Engineer",roleExperience:1.0}]}})
+
+$position - used with push or addToset to specify the index position of new addition 
+db.employees.updateOne({$empId:14},{$push:{experience:{role:"Senior Systems Engineer",roleExperience:1.0}}},{$position:0}) //newly added object will sit at index 0
+
+$ - used to update the data in nested docs
+db.employees.updateOne({$and:[{empId:1},{"experience.role":"Systems Engineer"}]},{$set:{"experience.$.roleExperience":2.0}})
+
+$pop - used to remove elements from an array
+db.employees.updateOne({empId:1},{$pop:{experience:-1}) //will remove element at first position
+db.employees.updateOne({empId:1},{$pop:{experience:1}) //will remove element at last position
+
+
