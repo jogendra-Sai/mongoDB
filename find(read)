@@ -185,4 +185,95 @@ db.products.find({$or:[{productCategory:{$eq:"Kitchen Appliances"}},{productAvai
 $not example
 db.products.find({productAvailability:{$not:{$gt:10}}) //filters the docs where productAvailability is lessthan or equal to 10
 
+Array Operators
+//new MockData
+[
+  {
+    "empName": "Anjali Kumar",
+    "empId": 235,
+    "salary": 25000,
+    "experience": [
+      {
+        "role": "Tech Analyst",
+        "roleExperience": 2.0
+      },
+      {
+        "role": "Tech Lead",
+        "roleExperience": 1.5
+      }
+    ]
+  },
+  {
+    "empName": "Rahul Singh",
+    "empId": 236,
+    "salary": 30000,
+    "experience": [
+      {
+        "role": "Tech Analyst",
+        "roleExperience": 1.5
+      },
+      {
+        "role": "Tech Lead",
+        "roleExperience": 2.0
+      }
+    ]
+  },
+  {
+    "empName": "Priya Sharma",
+    "empId": 237,
+    "salary": 28000,
+    "experience": [
+      {
+        "role": "Tech Analyst",
+        "roleExperience": 2.0
+      },
+      {
+        "role": "Tech Lead",
+        "roleExperience": 1.8
+      }
+    ]
+  },
+  {
+    "empName": "Vikram Reddy",
+    "empId": 238,
+    "salary": 32000,
+    "experience": [
+      {
+        "role": "Tech Analyst",
+        "roleExperience": 3.0
+      },
+      {
+        "role": "Tech Lead",
+        "roleExperience": 2.5
+      }
+    ]
+  },
+  {
+    "empName": "Neha Mehta",
+    "empId": 239,
+    "salary": 27000,
+    "experience": [
+      {
+        "role": "Tech Analyst",
+        "roleExperience": 2.5
+      },
+      {
+        "role": "Tech Lead",
+        "roleExperience": 2.0
+      }
+    ]
+  }
+]
 
+//Query
+db.employees.find({experience:{$elemMatch:{"role":"Tech Lead","roleExperience":{$gt:1.0}}}})
+
+$all -- for checking multiple conditions in nested docs
+db.employees.find({
+    experience: {
+      $all: [
+        { $elemMatch: { role: "Tech Analyst", roleExperience: { $gt: 2.0 } } },
+        { $elemMatch: { role: "Tech Lead", roleExperience: { $gt: 1.0 } } }
+      ]
+    }
+  })
