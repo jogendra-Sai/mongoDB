@@ -1,1 +1,170 @@
+mockData
+[
+  {
+    "_id": {"$oid": "5e3691360b26e319a4318926"},
+    "productId": 2001,
+    "productName": "Samsung Galaxy S20",
+    "productCategory": "Smartphones",
+    "color": ["cosmic gray", "cloud blue", "cloud pink"],
+    "productAvailability": 30
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318927"},
+    "productId": 2002,
+    "productName": "LG OLED CX",
+    "productCategory": "Televisions",
+    "size": ["48inch", "55inch", "65inch"],
+    "productAvailability": 12
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318928"},
+    "productId": 2003,
+    "productName": "Men's Casual Slim Fit Shirt",
+    "productCategory": "Clothing",
+    "fabric": "Linen",
+    "sleeve": "Short Sleeve",
+    "productAvailability": 40
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318929"},
+    "productId": 2004,
+    "productName": "Abstract Canvas Wall Art",
+    "productCategory": "Home Decor",
+    "dimensions": "30 inch x 20 inch",
+    "frameColor": "white",
+    "productAvailability": 20
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318930"},
+    "productId": 2005,
+    "productName": "Dell XPS 13",
+    "productCategory": "Laptops",
+    "color": ["silver", "black"],
+    "productAvailability": 15
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318931"},
+    "productId": 2006,
+    "productName": "Nike Air Max",
+    "productCategory": "Footwear",
+    "size": ["8", "9", "10"],
+    "color": ["black", "white", "blue"],
+    "productAvailability": 25
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318932"},
+    "productId": 2007,
+    "productName": "Levi's 501 Original Fit Jeans",
+    "productCategory": "Clothing",
+    "size": ["30", "32", "34"],
+    "color": ["blue", "black"],
+    "productAvailability": 35
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318933"},
+    "productId": 2008,
+    "productName": "Sony WH-1000XM4",
+    "productCategory": "Headphones",
+    "color": ["black", "silver"],
+    "productAvailability": 18
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318934"},
+    "productId": 2009,
+    "productName": "Fitbit Charge 4",
+    "productCategory": "Wearables",
+    "color": ["black", "rosewood", "storm blue"],
+    "productAvailability": 22
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318935"},
+    "productId": 2010,
+    "productName": "Instant Pot Duo",
+    "productCategory": "Kitchen Appliances",
+    "color": ["silver", "black"],
+    "productAvailability": 10
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318936"},
+    "productId": 2011,
+    "productName": "GoPro HERO9 Black",
+    "productCategory": "Cameras",
+    "color": ["black"],
+    "productAvailability": 14
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318937"},
+    "productId": 2012,
+    "productName": "Apple MacBook Pro",
+    "productCategory": "Laptops",
+    "color": ["space gray", "silver"],
+    "productAvailability": 8
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318938"},
+    "productId": 2013,
+    "productName": "Samsung Galaxy Watch 3",
+    "productCategory": "Wearables",
+    "color": ["black", "silver"],
+    "productAvailability": 27
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318939"},
+    "productId": 2014,
+    "productName": "JBL Flip 5",
+    "productCategory": "Speakers",
+    "color": ["black", "red", "blue"],
+    "productAvailability": 19
+  },
+  {
+    "_id": {"$oid": "5e3691f50b26e319a4318940"},
+    "productId": 2015,
+    "productName": "Amazon Echo Dot",
+    "productCategory": "Smart Home",
+    "color": ["charcoal", "glacier white", "twilight blue"],
+    "productAvailability": 50
+  }
+]
+
+//find method is used to retrive the documents from collection
+db.products.find()  //will return all the data as array of objects in product collection, if no docs found then will return empty array
+
+db.product.find({"productId":2014},{_id:0,productId:1,productName:1})  //will return the documents where productId=2014 and second object is called Projection
+
+db.products.findOne({condition}) //will return the doc for first matching condition, if no match found then it will return null
+
+Logical Operators (will write example queries for all the below operators)
+
+$gt --- greater than
+$lt --- less than
+$gte --- greater than or equal
+$lte --- lessthan or equal
+$eq ---- equal
+$ne --- not equal
+$in --- includes
+$nin --- not includes
+
+$gt example
+db.products.find({productAvailability:{$gt:10},{_id:0,productAvailability:1,productName:1})   // will return docs where productAvailability is greater than 10
+
+$lt example
+db.products.find({productAvailability:{$lt:10},{_id:0,productAvailability:1,productName:1})   // will return docs where productAvailability is less than 10
+
+$lte example
+db.products.find({productAvailability:{$lte:10},{_id:0,productAvailability:1,productName:1})   // will return docs where productAvailability is less than or equal to 10
+
+$gte example
+db.products.find({productAvailability:{$gte:10},{_id:0,productAvailability:1,productName:1})   // will return docs where productAvailability is greater than or equal to 10
+
+$eq example
+db.products.find({productAvailability:{$eq:10},{_id:0,productAvailability:1,productName:1})   // will return docs where productAvailability is equal to 10
+
+$ne example
+db.products.find({productAvailability:{$ne:10},{_id:0,productAvailability:1,productName:1})   // will return docs where productAvailability is not equal to 10
+
+//Suppose if you want to filter the doc where productCategory is either Kitchen Appliances or Smart Home
+db.products.find({productCategory:{$in:["Kitchen Appliances","Smart Home"]}) //here $eq wont work because it will check for only one value
+
+//Suppose if you want to filter the doc where productCategory is neither Kitchen Appliances nor Smart Home
+db.products.find({productCategory:{$nin:["Kitchen Appliances","Smart Home"]}) //here $eq wont work because it will check for only one value
 
