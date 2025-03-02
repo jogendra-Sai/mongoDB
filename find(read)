@@ -133,7 +133,7 @@ db.product.find({"productId":2014},{_id:0,productId:1,productName:1})  //will re
 
 db.products.findOne({condition}) //will return the doc for first matching condition, if no match found then it will return null
 
-Logical Operators (will write example queries for all the below operators)
+1) Comparison Operators (will write example queries for all the below operators)
 
 $gt --- greater than
 $lt --- less than
@@ -167,4 +167,22 @@ db.products.find({productCategory:{$in:["Kitchen Appliances","Smart Home"]}) //h
 
 //Suppose if you want to filter the doc where productCategory is neither Kitchen Appliances nor Smart Home
 db.products.find({productCategory:{$nin:["Kitchen Appliances","Smart Home"]}) //here $eq wont work because it will check for only one value
+
+//Above querie will filter the docs where productCategory field doesnot exist, to avoid that we need to use $exits:true
+db.products.find({productCategory:{$exists:true,$nin:["Kitchen Appliances","Smart Home"]})
+
+2) Logical Operators
+$and -- checks both the conditions
+$or -- checks either of the condition
+$not -- checks for not
+
+$and Example
+db.products.find({$and:[{productCategory:{$eq:"Kitchen Appliances"}},{productAvailability:{$gt:10}}]}) //need both the conditions true
+
+$or example
+db.products.find({$or:[{productCategory:{$eq:"Kitchen Appliances"}},{productAvailability:{$gt:10}}]}) //need any one conditions to be true
+
+$not example
+db.products.find({productAvailability:{$not:{$gt:10}}) //filters the docs where productAvailability is lessthan or equal to 10
+
 
