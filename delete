@@ -1,0 +1,6 @@
+//If we want to delete employees(docs) from collection we need to use delete commands
+
+db.employees.deleteOne({empId:6})  //deletes the employee whos id is 6
+
+db.employees.deleteMany({department:"ETA"}) //deletes the employees whos department is ETA  
+  
