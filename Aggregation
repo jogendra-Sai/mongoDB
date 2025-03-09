@@ -1,0 +1,1 @@
+MongoDB aggregation framework provides a way to process and transform data that is strored in our mongoDB collections. It allows us to peform various operations using data aggregation tools such as aggregation pipelines, map-reduce functions, or singe-purpose aggregation methods.
