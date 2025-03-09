@@ -1,1 +1,44 @@
 MongoDB aggregation framework provides a way to process and transform data that is strored in our mongoDB collections. It allows us to peform various operations using data aggregation tools such as aggregation pipelines, map-reduce functions, or singe-purpose aggregation methods.
+
+Aggregation Pipeline:-
+
+Aggregation pipeline is a framework in mongoDB and used to perform series of data transformations on the documents in a collection. we can do filtering, sorting, projecting and grouping.
+
+Example: db.employees.aggregate([{$match:{status:"A"},{$group:{_id:"$cust_id",total:{"$sum":"$amount"}}},{$sort:{total:-1}])
+
+Aggregation Concepts:
+
+PipleLines: A Pipeline is a series of stages that are excecuted in order to process the data. Each stage transforms the data in someway and passes to the next stage. The output of last stage is the final result of the pipeline.
+
+Stage: A stage is a single operation that is applied to the data. It can be simple transformation or a complex aggregation.
+
+Operator: An operator is a special symbol that is used to perform a specific operation on the data.
+
+Single Purpose Aggregates:
+1) Count documents
+ex: db.employees.countdouments({},skip:1,limit:2)  //{} condition  skip and limit are options
+2) Distinct documentts
+ex: db.emoployees.distinct("department")
+
+Stage Operators:
+1) $match
+db.employees.aggregate([{$match:{department:{$exists:true}}]) //similar find query db.employees.find({"department":{$exists:true})
+
+2) $Project (projections)
+db.employees.aggregate([{$match:{department:{$exists:true},{$project:{_id:0,empName:1}}])
+
+3)$group
+db.employees.aggregate([{$match:{department:{$exists:true}},{$group:{_id:"$department"}}]) //groups the docs by department
+
+4)$count
+db.employees.aggregate[{"$count":"noOfEmployees"}]
+
+db.employees.aggregate([{"$group":{_id:"$department"}},{"$count":'noOfDepartments'}])  //Grouping the employees based on department  and counting them
+
+5) $sort, $limit, $out
+
+db.employees.aggregate([{$sort:{salary:-1}},{$limit:3},{$out:"TopThreePaidEmployees"}]) //fetches the top 3 salarized employees and moved to collection TopThreePaidEmployees
+
+$skip:-
+Used to ignore some collections from result
+                                    
