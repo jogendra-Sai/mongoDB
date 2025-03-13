@@ -41,4 +41,41 @@ db.employees.aggregate([{$sort:{salary:-1}},{$limit:3},{$out:"TopThreePaidEmploy
 
 $skip:-
 Used to ignore some collections from result
+
+ACCUMULATORS:
+$sum: to count the no,of documents
+$avg: to find average of one/more fields
+$min: to fetch min value of a group
+$max: to fetch maximum value of a group
+
+Syntax: <<accumulatorName>> : "<<expression>>"   
+         $avg : "$salary"
+
+Fetch the no of employees and average salary for each department
+db.employees.aggregate([{"$group":{_id:"$department","noOfEmployees":{$sum:1},"averageSalary":{$avg:"$salary"}}}])
+//here $sum :1 counts the no,of employees under each department
+
+Calculate the average role experience of employees under each department
+db.employees.aggregate([{"$group":{_id:"$department","averageExperience":{$avg:{$sum:"$experience.roleExperience"}}}}])
+
+Calculate the minimum & maximum salary of department
+db.employees.aggregate([{"$group":{_id:"$department","minSalary":{$min:"$salary"},"maxSalary":{$max:"$salary"}}}])
+
+Fetch the List of employees name and salary for each department
+db.employees.aggregate([{"$group":{_id:"$department","employeeList":{$push:{employeeName:"$empName",salary:"$salary"}}}}])
+
+$concat
+If we want to combine two fields like {empData:"John - ETA"} here John is empName and ETA is department we need to use $concat operator
+
+db.employees.aggregate([{$project:{_id:0,"empData":{$concat:["$empName", " - ", "$department"]}}}])
+
+If empName or department is null then the response will be like {"empData":null} to avoid this we need to use $ifNull
+
+db.employees.aggregate([{"$project":{_id:0,"empData":{$concat:[{"$ifNull":["$empName", "NA"]}," - ", {$ifNull:["$salry","NA"]}]}}}])
+
+above query checks the null value and replaces it with NA {empData:"JOHN - NA"} or {empData:"NA - ETA"}
+
+Date Operators: $year, $month
+
+db.employees.aggregate([{$project:{_id:0,"birthYear":{$year:"$dateofBirth"}}}])
                                     
