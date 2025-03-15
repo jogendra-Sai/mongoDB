@@ -185,6 +185,14 @@ db.products.find({$or:[{productCategory:{$eq:"Kitchen Appliances"}},{productAvai
 $not example
 db.products.find({productAvailability:{$not:{$gt:10}}) //filters the docs where productAvailability is lessthan or equal to 10
 
+$regex Pattern Matching
+1) Find employees whose name starts with J
+db.employees.find({empName:{$regex:"^J+"}})  //it will wont work if name starts with small j
+
+db.employees.find({empName:{$regex:"^J+",$options:"i"}})  //It performs case insentive operations
+
+2) Find employees whose name starts with either J or k
+db.employees.find({empName:{$in:[/^J+/i , /^K+/i]}})
 Array Operators
 //new MockData
 [
